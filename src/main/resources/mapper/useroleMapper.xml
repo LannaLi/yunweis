@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfdk.yunwei.dao.sys.UserRoleMapper">
+	
+	<sql id="fromTable">
+		from sys_user_role
+	</sql>
+		
+	<insert id="insert">
+		insert into sys_user_role(userid,roleid)
+		values
+		<foreach collection="idList" separator="," item="item">
+			(#{userid},#{item})
+		</foreach>
+	</insert>
+	
+	<!-- 根据用户ID查找用户角色 -->
+	<select id="queryUserRoleById" parameterType="string" resultType="map">
+		select 
+			r.* 
+		from 
+			sys_role r,sys_user_role sur
+		where 
+			r.roleid = sur.roleid
+		and sur.userid = #{userid}
+	</select>
+	
+	<!-- 根据用户ID删除相对应的角色ID -->
+	<delete id="delRoleIdByUserId">
+		delete from sys_user_role where userid = #{userid}
+	</delete>
+	
+</mapper>

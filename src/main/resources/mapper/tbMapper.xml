@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dfdk.yunwei.dao.tb.TbMapper">
+	
+	<select id="queryTbName" resultType="string">
+		select table_name from information_schema.tables where table_schema=#{database}
+	</select>
+	
+	<select id="queryCountByTbName" resultType="int">
+		select count(*) from information_schema.tables 
+		where table_schema=#{database} and table_name = #{tbName};
+	</select>
+	
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfdk.yunwei.dao.sys.MenuMapper">
+	
+	<sql id="fromTable">
+		from sys_permission
+	</sql>
+		
+	<insert id="insert" parameterType="com.dfdk.yunwei.model.sys.SysMenuModel">
+		insert into sys_permission (
+			permid,
+			permname,
+			permurl,
+			parentid,
+			percode,
+			icon,
+			types,
+			status,
+			sort,
+			remark,
+			createby,
+			updateby,
+			createtime,
+			updatetime
+		)values(
+			#{permid},
+			#{permname},
+			#{permurl},
+			#{parentid},
+			#{percode},
+			#{icon},
+			#{types},
+			#{status},
+			#{sort},
+			#{remark},
+			#{createby},
+			#{updateby},
+			now(),
+			now())
+	</insert>
+	
+	<select id="queryMenu" resultType="map">
+		select
+			s.*,
+		    (select p.permname from sys_permission p where p.permid = s.parentid) as parentName 
+		from
+			sys_permission s
+	</select>
+	
+	
+	
+	<select id="queryObjects" resultType="com.dfdk.yunwei.model.sys.SysMenuModel">
+			select * from sys_permission
+	</select>
+	
+	<select id="queryTreeData" resultType="map">
+		select
+			permid as id,
+			permname as name,
+			parentid as parentId
+		from
+			sys_permission
+	</select>
+	
+</mapper>

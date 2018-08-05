@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dfdk.yunwei.dao.sys.RolePermMapper">
+	
+	<sql id="insertTo">insert into sys_role_permission</sql>
+	
+	<sql id="roleparam">
+		permid,
+		roleid
+	</sql>
+	<sql id="rolevalue">
+		#{permid},
+		#{roleid}
+	</sql>
+	
+	<sql id="fromTo">
+		from sys_role_permission
+	</sql>
+	
+	<sql id="sortByTime">
+		order by createtime desc
+	</sql>
+	
+	<insert id="insert">
+		insert into sys_role_permission(<include refid="roleparam"></include>)
+		values
+		<foreach collection="idList" separator="," item="item">
+			(#{item},#{roleid})
+		</foreach>
+
+	</insert>
+	
+	<select id="queryMenuListByRoleId" parameterType="string" resultType="map">
+		select 
+			sp.*
+		from sys_role sr,sys_role_permission srp,sys_permission sp
+		where
+			sr.roleid = srp.roleid
+		and 
+			srp.permid = sp.permid
+		and 
+			sr.roleid = #{roleid}
+		and
+			sp.types = #{types}		
+	</select>
+	
+	<select id="queryRolePermById" resultType="map">
+		select 
+			sp.permid as id,
+			sp.permname as name,
+			sp.parentid as parentId 
+		from 
+			sys_role sr,sys_role_permission srp,sys_permission sp
+		where 
+			sr.roleid = srp.roleid
+		and
+			srp.permid = sp.permid	
+		and
+			sr.roleid = #{roleid}
+	</select>
+	
+	<delete id="deleteRolePermByRoleid">
+		delete from sys_role_permission where roleid = #{roleid}
+	</delete>
+	
+	
+</mapper>

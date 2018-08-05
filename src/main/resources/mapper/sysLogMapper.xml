@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfdk.yunwei.dao.log.SysLogMapper" >
+
+
+    <sql id="Base_Column_List" >
+        logid, type, title, remoteAddr, requestUrl, reqmethod, params, except, operatetime, 
+        timeout, userid
+    </sql>
+
+    <select id="selectByPrimaryKey" resultType="com.dfdk.yunwei.model.log.SysLog" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_log
+        where logid = #{logid,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from sys_log
+        where logid = #{logid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.dfdk.yunwei.model.log.SysLog" >
+        insert into sys_log (logid, type, title, 
+            remoteAddr, requestUrl, reqmethod, 
+            params, except, operatetime, 
+            timeout, userid)
+        values (#{logid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+            #{remoteaddr,jdbcType=VARCHAR}, #{requesturl,jdbcType=VARCHAR}, #{reqmethod,jdbcType=VARCHAR}, 
+            #{params,jdbcType=LONGVARCHAR}, #{except,jdbcType=LONGVARCHAR}, #{operatetime,jdbcType=VARCHAR}, 
+            #{timeout,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.dfdk.yunwei.model.log.SysLog" >
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logid != null" >
+                logid,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="remoteaddr != null" >
+                remoteAddr,
+            </if>
+            <if test="requesturl != null" >
+                requestUrl,
+            </if>
+            <if test="reqmethod != null" >
+                reqmethod,
+            </if>
+            <if test="params != null" >
+                params,
+            </if>
+            <if test="except != null" >
+                except,
+            </if>
+            <if test="operatetime != null" >
+                operatetime,
+            </if>
+            <if test="timeout != null" >
+                timeout,
+            </if>
+            <if test="userid != null" >
+                userid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logid != null" >
+                #{logid,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteaddr != null" >
+                #{remoteaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="requesturl != null" >
+                #{requesturl,jdbcType=VARCHAR},
+            </if>
+            <if test="reqmethod != null" >
+                #{reqmethod,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null" >
+                #{params,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="except != null" >
+                #{except,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="operatetime != null" >
+                #{operatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="timeout != null" >
+                #{timeout,jdbcType=VARCHAR},
+            </if>
+            <if test="userid != null" >
+                #{userid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.dfdk.yunwei.model.log.SysLog" >
+        update sys_log
+        <set >
+            <if test="type != null" >
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteaddr != null" >
+                remoteAddr = #{remoteaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="requesturl != null" >
+                requestUrl = #{requesturl,jdbcType=VARCHAR},
+            </if>
+            <if test="reqmethod != null" >
+                reqmethod = #{reqmethod,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null" >
+                params = #{params,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="except != null" >
+                except = #{except,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="operatetime != null" >
+                operatetime = #{operatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="timeout != null" >
+                timeout = #{timeout,jdbcType=VARCHAR},
+            </if>
+            <if test="userid != null" >
+                userid = #{userid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where logid = #{logid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.dfdk.yunwei.model.log.SysLog" >
+        update sys_log
+        set type = #{type,jdbcType=VARCHAR},
+            title = #{title,jdbcType=VARCHAR},
+            remoteAddr = #{remoteaddr,jdbcType=VARCHAR},
+            requestUrl = #{requesturl,jdbcType=VARCHAR},
+            reqmethod = #{reqmethod,jdbcType=VARCHAR},
+            params = #{params,jdbcType=LONGVARCHAR},
+            except = #{except,jdbcType=LONGVARCHAR},
+            operatetime = #{operatetime,jdbcType=VARCHAR},
+            timeout = #{timeout,jdbcType=VARCHAR},
+            userid = #{userid,jdbcType=VARCHAR}
+        where logid = #{logid,jdbcType=VARCHAR}
+    </update>
+</mapper>

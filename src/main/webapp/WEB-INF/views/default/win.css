@@ -1,0 +1,41 @@
+/**主div*/
+.win{width:360px;height:200px;border:2px solid #00A2E8;z-index:9000;display:none;position: absolute;}
+/**头div*/
+.win .win-header{width:360px;height:28px;background:#bdb76b;border-bottom:1px solid #00A2E8;}
+.win .win-header h3{margin-top:0px;margin-bottom:0px;text-align:center;}
+/**内容div*/
+.win .win-text{
+	width:360px;
+	height:141px;
+	background:#dcdcdc;
+	font-size:24px;
+	font:blod;
+	color:#4169e1;
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	display: -moz-box;
+
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+
+	display: -o-box;
+	-o-box-orient: horizontal;
+	-o-box-pack: center;
+	-o-box-align: center;
+
+	display: -ms-box;
+	-ms-box-orient: horizontal;
+	-ms-box-pack: center;
+	-ms-box-align: center;
+
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+}
+/**脚div*/
+.win .win-footer{width:360px;height:29px;background:#ff7f50;border-top:1px solid #00A2E8;}
+.win .win-footer .Btn{float:right;width:48px;height:30px;margin-right:10px;background:#20b2aa;}

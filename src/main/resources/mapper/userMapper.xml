@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dfdk.yunwei.dao.sys.UserMapper">
+	
+	<sql id="userparam">
+		userid,
+		username,
+		password,
+		realname,
+		phone,
+		email,
+		weichat,
+		qqcode,
+		sex,
+		birthdate,
+		deptid,
+		onlines,
+		onduty,
+		belarea,
+		status,
+		createby,
+		updateby,
+		createtime,
+		updatetime
+	</sql>
+	<sql id="uservalue">
+		#{userid},
+		#{username},
+		#{password},
+		#{realname},
+		#{phone},
+		#{email},
+		#{weichat},
+		#{qqcode},
+		#{sex},
+		#{birthdate},
+		#{deptid},
+		#{onlines},
+		#{onduty},
+		#{belarea},
+		#{status},
+		#{createby},
+		#{updateby},
+		now(),
+		now()
+	</sql>
+	
+	<sql id="fromBy">
+		from sys_user
+	</sql>
+	
+	<sql id="sortByTime">
+		order by createtime desc
+	</sql>
+	
+	<insert id="insert" parameterType="com.dfdk.yunwei.model.sys.UserModel">
+		insert into sys_user(<include refid="userparam"></include>)values(<include refid="uservalue"></include>);
+	</insert>
+	
+	<select id="queryObjects" resultType="map">
+		select 
+			<include refid="userparam"></include>
+			<include refid="fromBy"></include>
+			<include refid="sortByTime"></include>
+	</select>
+	
+	
+	
+	<select id="isExit" resultType="int">
+		select count(*) <include refid="fromBy"></include> where username = #{username}
+	</select>
+	
+	<!-- 根据用户名查找用户 -->
+	<select id="queryUserByName" resultType="com.dfdk.yunwei.model.sys.UserModel">
+		select * <include refid="fromBy"></include> where username = #{username}
+	</select>
+	
+	<select id="queryStateByName" resultType="string">
+		select status <include refid="fromBy"></include> where username = #{username}
+	</select>
+	
+	<!-- 管理员操作 -->
+	<update id="updatePwd" parameterType="com.dfdk.yunwei.model.sys.UserModel">
+		update sys_user set password = #{model.password} where userid = #{model.userid}
+	</update>
+	
+	
+	<update id="updateState" parameterType="com.dfdk.yunwei.model.sys.UserModel">
+		update sys_user set status = #{model.status} where userid = #{model.userid}
+	</update>
+	
+	<!-- 根据ID查找相对应的授权标识 -->
+	<select id="queryPermById" parameterType="string" resultType="string">
+		select 
+			sp.percode
+		from sys_user_role sur,sys_role_permission srp,sys_permission sp
+		where
+			sur.roleid = srp.roleid
+		and 
+			srp.permid = sp.permid
+		and 
+			sur.userid = #{userid}	
+	</select>
+	
+	<!-- 仅查找菜单 -->
+	<select id="queryMenuList" parameterType="string" resultType="map">
+		select 
+			sp.*
+		from sys_user_role sur,sys_role_permission srp,sys_permission sp
+		where
+			sur.roleid = srp.roleid
+		and 
+			srp.permid = sp.permid
+		and 
+			sur.userid = #{userid}
+		and
+			sp.types = #{types}		
+	</select>
+	
+	<select id="queryRoleStatus" resultType="map">
+		select r.*
+		from sys_user su,sys_user_role sur,sys_role r
+		where 
+			su.userid = sur.userid
+		and
+			sur.roleid = r.roleid
+		and
+			su.userid = #{model.userid}
+	</select>
+	
+	
+</mapper>
