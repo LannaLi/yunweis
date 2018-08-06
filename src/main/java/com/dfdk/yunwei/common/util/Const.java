@@ -20,4 +20,6 @@ public class Const {
 	public static final String TYPE_F = "FREEZE";
 	public static final String TYPE_S = "STOP";
 	
+	public static final String ONLINE_STATUS = "yes";
+	public static final String OFFLINE_STATUS = "no";
 }

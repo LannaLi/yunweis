@@ -146,4 +146,21 @@ public class UserController extends BaseController{
 			return new JsonResult(e);
 		}
 	}
+	
+	@SysLogControllerLog(description="修改用户信息")
+	@RequestMapping("updateU")
+	@ResponseBody
+	public JsonResult updateU() {
+		Map<String,Object> map = this.getRequestParam();
+		UserModel model = (UserModel) Map2Bean.map2JavaBean(map, UserModel.class);
+		try {
+			int num = userService.update(model);
+			return new JsonResult(num);
+		} catch (ModifiedException e) {
+			return new JsonResult(e);
+		}
+	}
+	
+	
+	
 }

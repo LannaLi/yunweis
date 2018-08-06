@@ -127,6 +127,36 @@
 		and
 			su.userid = #{model.userid}
 	</select>
+	<!-- 修改用户信息 -->
+	<update id="updateUser">
+		update sys_user
+		<set>
+			<if test="username != null || username != ''">userid = #{model.userid}</if>
+			<if test="password != null || password != ''">password = #{model.password}</if>
+			<if test="realname != null || realname != ''">realname = #{model.realname}</if>
+			<if test="phone != null || phone != ''">phone = #{model.phone}</if>
+			<if test="email != null || email != ''">email = #{model.email}</if>
+			<if test="weichat != null || weichat != ''">weichat = #{model.weichat}</if>
+			<if test="qqcode != null || qqcode != ''">qqcode = #{model.qqcode}</if>
+			<if test="sex != null || sex != ''">sex = #{model.sex}</if>
+			<if test="birthdate != null || birthdate != ''">birthdate = #{model.birthdate}</if>
+			<if test="deptid != null || deptid != ''">deptid = #{model.deptid}</if>
+			<if test="onduty != null || onduty != ''">onduty = #{model.onduty}</if>
+			<if test="belarea != null || belarea != ''">belarea = #{model.belarea}</if>
+			<if test="updateby != null || updateby != ''">updateby = #{model.updateby}</if>
+			<if test="updatetime != null || updatetime != ''">updatetime = #{model.updatetime}</if>
+		</set>
+		where userid = #{model.userid}
+	</update>
 	
+	<!-- 修改在线 -->
+	<update id="updateOnLine">
+		update sys_user set onlines = #{model.onlines} where userid = #{model.userid}
+	</update>
+	
+	
+	<select id="isOnLine" resultType="string">
+		select onlines from sys_user where userid = #{model.userid}
+	</select>
 	
 </mapper>

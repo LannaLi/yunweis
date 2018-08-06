@@ -27,4 +27,10 @@ public interface UserManager extends BaseService<UserModel>{
 	
 	public List<Map<String,Object>> queryRolesStatus(UserModel model);
 	
+	public int update(UserModel model);
+	
+	public void updateOn(UserModel model);
+	
+	public String isOnLine(UserModel model);
+	
 }

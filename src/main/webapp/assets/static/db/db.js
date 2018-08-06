@@ -16,6 +16,9 @@ function table(count){
 					+'<div class="col-sm-2">'
 						+'<input type="text" id="comment'+count+'" placeholder="字段说明" class="form-control required">'
 					+'</div>'
+					+'<div class="col-sm-2">'
+						+'<input type="button" class="btn btn-info" onclick="del(this)" value="删除">'
+					+'</div>'
 				+'</div>');
 	return html;
 }
@@ -50,5 +53,11 @@ function submit(){
 	});
 }
 
-
+function del(t){
+	var msg = "确定";
+	if (confirm(msg)) {
+		$(t).parent().parent().remove();
+	}
+	return false;
+}
 

@@ -120,4 +120,29 @@ public class UserService implements UserManager{
 		return userMapper.queryRoleStatus(model);
 	}
 	
+	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Override
+	public int update(UserModel model) {
+		int num = userMapper.updateUser(model);
+		if (num != 1) {
+			throw new ModifiedException("修改用户信息失败!");
+		}
+		return num;
+	}
+	
+	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Override
+	public void updateOn(UserModel model) {
+		int num = userMapper.updateOnLine(model);
+		if (num != 1) {
+			throw new ModifiedException("更改在线状态失败");
+		}
+	}
+	
+	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Override
+	public String isOnLine(UserModel model) {
+		return userMapper.isOnLine(model);
+	}
+	
 }
