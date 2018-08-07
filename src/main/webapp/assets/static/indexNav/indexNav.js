@@ -1,7 +1,7 @@
 $(document).ready(function(){
+	//个人中心
 	$('.top-navbar').on('click','#pCenter',perSetting);
 	function perSetting(){
-		console.log('点击了个人中心');
+		$('#page-wrapper').load('editUser.do');
 	}
-	
 });

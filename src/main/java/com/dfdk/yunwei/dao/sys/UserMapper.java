@@ -85,5 +85,12 @@ public interface UserMapper extends BaseDao<UserModel>{
 	 * @date 2018年8月6日
 	 */
 	public String isOnLine(@Param("model")UserModel model);
-	
+	/**
+	 * 根据用户ID查找密码
+	 * @param userid
+	 * @return
+	 * @author Lanna
+	 * @date 2018年8月7日
+	 */
+	public String queryPwdById(@Param("userid")String userid);
 }

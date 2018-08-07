@@ -14,37 +14,34 @@ import com.dfdk.yunwei.dao.sys.RolePermMapper;
 import com.dfdk.yunwei.service.sys.RolePermManager;
 
 @Service
-@Transactional(readOnly=false)
+@Transactional(readOnly=false,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 public class RolePermService implements RolePermManager{
 	
 	@Autowired
 	private RolePermMapper rolePermMapper;
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int insert(String roleId, List<String> idList) throws Exception {
 		return rolePermMapper.insert(roleId, idList);
 	}
 	
-	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=true)
 	@Override
 	public Set<Map<String, Object>> queryMenuByRoleId(String id, String type) {
 		return rolePermMapper.queryMenuListByRoleId(id, type);
 	}
 	
-	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=true)
 	@Override
 	public List<Map<String, Object>> queryRolePermsById(String id) {
 		return rolePermMapper.queryRolePermById(id);
 	}
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int deleteRolePermsByRoleid(String roleid) {
 		return rolePermMapper.deleteRolePermByRoleid(roleid);
 	}
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int updateRolePermsByRoleid(String roleid,List<String> idList) throws Exception {
 		if ("".equals(roleid) || roleid.length() == 0) {

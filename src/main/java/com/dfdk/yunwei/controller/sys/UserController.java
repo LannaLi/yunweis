@@ -1,5 +1,6 @@
 package com.dfdk.yunwei.controller.sys;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dfdk.yunwei.annotion.SysLogControllerLog;
 import com.dfdk.yunwei.common.ex.ModifiedException;
 import com.dfdk.yunwei.common.util.Const;
+import com.dfdk.yunwei.common.util.DateUtil;
 import com.dfdk.yunwei.common.util.MD5;
 import com.dfdk.yunwei.common.util.Map2Bean;
 import com.dfdk.yunwei.common.web.JsonResult;
@@ -61,6 +63,7 @@ public class UserController extends BaseController{
 		model.setUserid(this.get32UUID());
 		model.setPassword(MD5.getOriginPwdMD5String());
 		model.setStatus(Const.STATUS_USE);
+		model.setOnduty(Const.ONDUTY);
 		model.setCreateby(user.getUsername());
 		model.setUpdateby(user.getUsername());
 		try {
@@ -154,6 +157,8 @@ public class UserController extends BaseController{
 		Map<String,Object> map = this.getRequestParam();
 		UserModel model = (UserModel) Map2Bean.map2JavaBean(map, UserModel.class);
 		try {
+			model.setUpdatetime(DateUtil.date2String(new Date()));
+			model.setUpdateby(ShiroSessionManager.getUserName());
 			int num = userService.update(model);
 			return new JsonResult(num);
 		} catch (ModifiedException e) {

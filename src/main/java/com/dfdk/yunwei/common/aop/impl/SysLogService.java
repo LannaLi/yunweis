@@ -4,11 +4,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dfdk.yunwei.common.aop.SysLogManager;
 import com.dfdk.yunwei.dao.log.SysLogMapper;
 import com.dfdk.yunwei.model.log.SysLog;
 @Service
+@Transactional(readOnly=false,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 public class SysLogService implements SysLogManager{
 	private static Logger logger = LogManager.getLogger(SysLogService.class);
 	@Autowired

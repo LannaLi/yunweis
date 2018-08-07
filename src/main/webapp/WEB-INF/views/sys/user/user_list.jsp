@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="../../taglib/indexHeadTag.jsp"%>
 <div class="header"> 
-	<h3 class="page-header">东方电科</h3>
+	<h3 class="page-header">${fnc:getCompanyName()}</h3>
 	<ol class="breadcrumb" id="header-nav">
 		<li><a>系统设置</a></li>
 		<li><a>用户管理</a></li>

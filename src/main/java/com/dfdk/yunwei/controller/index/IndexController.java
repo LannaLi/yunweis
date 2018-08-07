@@ -24,11 +24,9 @@ public class IndexController extends BaseController{
 	@SysLogControllerLog(description="加载首页")
 	@RequestMapping("index")
 	public ModelAndView index() {
-		this.before(logger, "index()");
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("sys/index/index");
 		mv.addObject("username",ShiroSessionManager.getUserName());
-		this.end(logger);
 		return mv;
 	}
 	
@@ -36,7 +34,6 @@ public class IndexController extends BaseController{
 	@RequestMapping("permMenuLists")
 	@ResponseBody
 	public JsonResult getPermMenus() {
-		this.before(logger,"getPermMenus");
 		UserModel user = ShiroSessionManager.getUser();
 		try {
 			Set<Map<String,Object>> menuMap = userService.queryMenuLists(user.getUserid(),Const.TYPE_MENU);
@@ -44,5 +41,14 @@ public class IndexController extends BaseController{
 		} catch (NullPointerException e) {
 			return new JsonResult(e);
 		}
+	}
+	
+	@SysLogControllerLog(description="加载修改个人页面")
+	@RequestMapping("editUser")
+	public ModelAndView userEdit() {
+		ModelAndView mv = this.getModelAndView();
+		mv.setViewName("sys/user/user_edit");
+		mv.addObject("user", ShiroSessionManager.getUser());
+		return mv;
 	}
 }

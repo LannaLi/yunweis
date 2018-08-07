@@ -53,8 +53,6 @@ public class LoginController extends BaseController{
 			if (!currentUser.isAuthenticated()) {
 				try {
 					ShiroTokenManager.login(currentUser,model);
-					model.setOnlines(Const.ONLINE_STATUS);
-					//userService.updateOn(model);
 					return new JsonResult("success");
 				} catch (IncorrectCredentialsException e) {
 					e = new IncorrectCredentialsException("PWDERROR");
