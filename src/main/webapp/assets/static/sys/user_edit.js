@@ -5,7 +5,6 @@ $(document).ready(function(){
 		}
 		if ($(this).hasClass('btn-sure')) {
 			var param = getParam();
-			console.log(param)
 			$.ajax({
 				type:'POST',
 				url:'user/updateU.do',

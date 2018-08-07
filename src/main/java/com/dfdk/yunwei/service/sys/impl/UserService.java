@@ -1,5 +1,6 @@
 package com.dfdk.yunwei.service.sys.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dfdk.yunwei.common.ex.ModifiedException;
+import com.dfdk.yunwei.common.ex.QueryException;
 import com.dfdk.yunwei.common.util.MD5;
+import com.dfdk.yunwei.common.util.Pagination;
 import com.dfdk.yunwei.dao.sys.UserMapper;
 import com.dfdk.yunwei.model.sys.UserModel;
 import com.dfdk.yunwei.service.sys.UserManager;
@@ -145,6 +148,21 @@ public class UserService implements UserManager{
 	@Override
 	public String isOnLine(UserModel model) {
 		return userMapper.isOnLine(model);
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
+	public Map<String, Object>queryPO(UserModel model, Pagination pagination) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		int count = userMapper.queryRowCount(model);
+		if (count == 0) {
+			throw new QueryException("没有找到相对应的记录!");
+		}
+		pagination.setRowCount(count);
+		List<Map<String,Object>> userList = userMapper.queryPageObject(model, pagination);
+		map.put("pagination", pagination);
+		map.put("userList", userList);
+		return map;
 	}
 	
 }

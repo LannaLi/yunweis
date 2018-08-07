@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.dfdk.yunwei.common.util.Pagination;
 import com.dfdk.yunwei.model.sys.UserModel;
 import com.dfdk.yunwei.service.base.BaseService;
 
@@ -32,5 +33,8 @@ public interface UserManager extends BaseService<UserModel>{
 	public void updateOn(UserModel model);
 	
 	public String isOnLine(UserModel model);
+	
+	public Map<String,Object> queryPO(UserModel model,Pagination pagination);
+	
 	
 }

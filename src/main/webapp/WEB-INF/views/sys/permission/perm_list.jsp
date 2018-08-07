@@ -22,6 +22,9 @@
 										</c:if>
 										<shiro:hasPermission name="sys:perm:view">
 										<c:if test="${!empty(roleList)}">
+											<ul class="list-unstyled list-inline left">
+												<li><input type="text" class="btn btn-info" placeholder="请出入查询条件"></li>
+											</ul>
 											<table class="table table-bordered">
 												<thead>
 													<tr>

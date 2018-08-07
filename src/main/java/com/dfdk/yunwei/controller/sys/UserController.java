@@ -1,7 +1,6 @@
 package com.dfdk.yunwei.controller.sys;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dfdk.yunwei.annotion.SysLogControllerLog;
 import com.dfdk.yunwei.common.ex.ModifiedException;
+import com.dfdk.yunwei.common.ex.QueryException;
 import com.dfdk.yunwei.common.util.Const;
 import com.dfdk.yunwei.common.util.DateUtil;
 import com.dfdk.yunwei.common.util.MD5;
 import com.dfdk.yunwei.common.util.Map2Bean;
+import com.dfdk.yunwei.common.util.Pagination;
 import com.dfdk.yunwei.common.web.JsonResult;
 import com.dfdk.yunwei.controller.base.BaseController;
 import com.dfdk.yunwei.model.sys.UserModel;
@@ -37,14 +38,21 @@ public class UserController extends BaseController{
 	@RequiresPermissions("sys:user:view")
 	public ModelAndView userList() {
 		ModelAndView mv = this.getModelAndView();
-		try {
-			List<Map<String,Object>> userList = userService.queryUsers();
-			mv.addObject("userList", userList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		mv.setViewName("sys/user/user_list");
 		return mv;
+	}
+	
+	@SysLogControllerLog(description="查询所有的用户")
+	@RequestMapping("queryU")
+	@ResponseBody
+	public JsonResult queryU(UserModel model,Pagination pagination) {
+		try {
+			Map<String,Object> map = userService.queryPO(model, pagination);
+			return new JsonResult(map);
+		} catch (QueryException e) {
+			logger.error("错误信息:" +e.getMessage());
+			return new JsonResult(e);
+		}
 	}
 	
 	/**

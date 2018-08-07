@@ -20,7 +20,6 @@ $(document).ready(function(){
 	};
 	
 	
-	
 	$('#userManager').on('click','.btn-createUser',createUser);
 	$('#userManager').on('click','.glyphicon-role',showRole);
 	$('#roleLayer').on('click','.layer-btn',layerHandler);
@@ -40,6 +39,7 @@ $(document).ready(function(){
 				
 			}
 	);
+	
 	
 	/**
 	 * 重置密码

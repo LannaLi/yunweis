@@ -1,9 +1,8 @@
-<ul class="list-unstyled list-inline right">
-	<li><a>&laquo;</a></li>
-	<li><a>1</a></li>
-	<li><a>2</a></li>
-	<li><a>3</a></li>
-	<li><a>4</a></li>
-	<li><a>5</a></li>
-	<li><a>&raquo;</a></li>
+<%@include file="../taglib/indexHeadTag.jsp" %>
+<ul class="list-unstyled list-inline right" id="pagination">
+	<li><a class="page page-first">${fnc:getFirst()}</a></li>
+	<li><a class="page page-pre">${fnc:getPre()}</a></li>
+	<li><a class="page page-next">${fnc:getNext()}</a></li>
+	<li><a class="page page-last">${fnc:getLast()}</a></li>
 </ul>
+<script src="${pageContext.request.contextPath}/assets/static/page/page.js"></script>
