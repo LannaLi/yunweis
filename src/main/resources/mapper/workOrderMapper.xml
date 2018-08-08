@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfdk.yunwei.dao.workorder.WorkorderMapper">
+	
+	<sql id="workorderSql">
+		w.workorderid as workOrderId,
+		w.workorderbh as workOrderBh,
+		w.workordtype as workOrderType,
+		w.createtype as createType,
+		w.sourceid as sourceId,
+		w.wdbelongto as wdBelongTo,
+		w.worderstart as wOrderStart,
+		w.worderend as wOrderEnd,
+		w.productid as productId,
+		w.servicetype as serviceType,
+		w.servareaid as servAreaId,
+		w.servaddress as servAddress,
+		w.accepttime as acceptTime,
+		w.engineerid as engineerId,
+		w.wdhandleruser as wdHandlerUser,
+		w.wdstatus as wdStatus,
+		w.wdremark as wdRemark,
+		w.serviceprice as servicePrice,
+		w.createtime ,
+		w.createby ,
+		w.updatetime ,
+		w.updateby 
+	</sql>
+	
+	<select id="query" parameterType="String" resultType="com.dfdk.yunwei.model.workorder.WorkorderModel">
+		select 
+			<include refid="workorderSql"></include>
+		from yw_workorder w
+		where w.workorderid = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="com.dfdk.yunwei.model.workorder.WorkorderModel">
+		insert into yw_workorder (
+			w.workorderid,
+			w.workorderbh,
+			w.workordtype,
+			w.createtype,
+			w.sourceid,
+			w.wdbelongto,
+			w.worderstart,
+			w.worderend,
+			w.productid,
+			w.servicetype,
+			w.servareaid,
+			w.servaddress,
+			w.accepttime,
+			w.engineerid,
+			w.wdhandleruser,
+			w.wdstatus,
+			w.wdremark,
+			w.serviceprice,
+			w.createtime,
+			w.createby,
+			w.updatetime,
+			w.updateby 
+		)values(
+			#{model.workOrderId},
+			#{model.workOrderBh},
+			#{model.workOrderType},
+			#{model.createType},
+			#{model.sourceId},
+			#{model.wdBelongTo},
+			#{model.wOrderStart},
+			#{model.wOrderEnd},
+			#{model.productId},
+			#{model.serviceType},
+			#{model.servAreaId},
+			#{model.servAddress},
+			#{model.acceptTime},
+			#{model.engineerId},
+			#{model.wdHandlerUser},
+			#{model.wdStatus},
+			#{model.wdRemark},
+			#{model.servicePrice},
+			#{model.createtime},
+			#{model.createby},
+			#{model.updatetime},
+			#{model.updateby}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.dfdk.yunwei.model.workorder.WorkorderModel">
+		update yw_workorder set
+			workorderid = #{model.workOrderId}
+			<if test="model.workOrderBh!='' and model.workOrderBh!=null">
+				,workorderbh = #{model.workOrderBh}
+			</if>
+			<if test="model.workOrderType!='' and model.workOrderType!=null">
+				,workordtype = #{model.workOrderType}
+			</if>
+			<if test="model.createType!='' and model.createType!=null">
+				,createtype = #{model.createType}
+			</if>
+			<if test="model.sourceId!='' and model.sourceId!=null">
+				,sourceid = #{model.sourceId}
+			</if>
+			<if test="model.wdBelongTo!='' and model.wdBelongTo!=null">
+				,wdbelongto = #{model.wdBelongTo}
+			</if>
+			<if test="model.wOrderStart!='' and model.wOrderStart!=null">
+				,worderstart = #{model.wOrderStart}
+			</if>
+			<if test="model.wOrderEnd!='' and model.wOrderEnd!=null">
+				,worderend = #{model.wOrderEnd}
+			</if>
+			<if test="model.productId!='' and model.productId!=null">
+				,productid = #{model.productId}
+			</if>
+			<if test="model.serviceType!='' and model.serviceType!=null">
+				,servicetype = #{model.serviceType}
+			</if>
+			<if test="model.servAreaId!='' and model.servAreaId!=null">
+				,servareaid = #{model.servAreaId}
+			</if>
+			<if test="model.servAddress!='' and model.servAddress!=null">
+				,servaddress = #{model.servAddress}
+			</if>
+			<if test="model.acceptTime!='' and model.acceptTime!=null">
+				,accepttime = #{model.acceptTime}
+			</if>
+			<if test="model.engineerId!='' and model.engineerId!=null">
+				,engineerid = #{model.engineerId}
+			</if>
+			<if test="model.wdHandlerUser!='' and model.wdHandlerUser!=null">
+				,wdhandleruser = #{model.wdHandlerUser}
+			</if>
+			<if test="model.wdStatus!='' and model.wdStatus!=null">
+				,wdstatus = #{model.wdStatus}
+			</if>
+			<if test="model.wdRemark!='' and model.wdRemark!=null">
+				,wdremark = #{model.wdRemark}
+			</if>
+			<if test="model.servicePrice!='' and model.servicePrice!=null">
+				,serviceprice = #{model.servicePrice}
+			</if>
+			<if test="model.createtime!='' and model.createtime!=null">
+				,createtime = #{model.createtime}
+			</if>
+			<if test="model.createby!='' and model.createby!=null">
+				,createby = #{model.createby}
+			</if>
+			<if test="model.updatetime!='' and model.updatetime!=null">
+				,updatetime = #{model.updatetime}
+			</if>
+			<if test="model.updateby!='' and model.updateby!=null">
+				,updateby = #{model.updateby}
+			</if>
+		where workorderid = #{model.workOrderId}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from yw_workorder
+		where workorderid = #{id}
+	</delete>
+	
+	<!-- 分页查询工单列表 -->
+	<select id="queryOrdersByPage" parameterType="com.dfdk.yunwei.model.workorder.WorkorderModel" resultType="com.dfdk.yunwei.model.workorder.WorkorderModel">
+		select 
+			<include refid="workorderSql"></include>
+		from yw_workorder w
+		<where>
+			<if test="model.workOrderType!='' and model.workOrderType!=null">
+				w.workordtype = #{model.workOrderType}
+			</if>
+			<if test="model.wdBelongTo!='' and model.wdBelongTo!=null">
+				and w.wdbelongto = #{model.wdBelongTo}
+			</if>
+			<if test="model.wOrderStart!='' and model.wOrderStart!=null">
+				and <![CDATA[w.worderstart >= #{model.wOrderStart}]]>
+			</if>
+			<if test="model.wOrderEnd!='' and model.wOrderEnd!=null">
+				and <![CDATA[w.worderend <= #{model.wOrderEnd}]]>
+			</if>
+			<if test="model.serviceType!='' and model.serviceType!=null">
+				and w.servicetype = #{model.serviceType}
+			</if>
+			<if test="model.servAddress!='' and model.servAddress!=null">
+				and w.servaddress like concat('%',concat(#{model.servAddress},'%'))
+			</if>
+			<if test="model.engineerId!='' and model.engineerId!=null">
+				and w.engineerid = #{model.engineerId}
+			</if>
+			<if test="model.wdHandlerUser!='' and model.wdHandlerUser!=null">
+				and w.wdhandleruser = #{model.wdHandlerUser}
+			</if>
+			<if test="model.wdStatus!='' and model.wdStatus!=null">
+				and w.wdstatus = #{model.wdStatus}
+			</if>
+		</where>
+		order by w.createtime desc
+		<if test="model.startRow!='' and model.startRow!=null">
+			limit #{model.startRow},#{model.endRow}
+		</if>
+	</select>
+	
+</mapper>
