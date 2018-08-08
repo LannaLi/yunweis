@@ -12,26 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dfdk.yunwei.dao.sys.UserRoleMapper;
 import com.dfdk.yunwei.service.sys.UserRoleManager;
 @Service
-@Transactional(readOnly=false)
+@Transactional(readOnly=false,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 public class UserRoleService implements UserRoleManager{
 	
 	@Autowired
 	private UserRoleMapper userRoleMapper;
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int insertObject(String userid, List<String> idList) throws Exception {
 		return userRoleMapper.insert(userid, idList);
 	}
 	
-	@Transactional(readOnly=true,isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
+	@Transactional(readOnly=true)
 	@Override
 	public List<Map<String, Object>> queryURoleById(String id) {
 		List<Map<String, Object>> list = userRoleMapper.queryUserRoleById(id);
 		return list;
 	}
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int updateUR(String userid, List<String> idList) throws Exception {
 		if (null == userid || "".equals(userid)) {
@@ -41,7 +39,6 @@ public class UserRoleService implements UserRoleManager{
 		return userRoleMapper.insert(userid, idList);
 	}
 	
-	@Transactional(isolation=Isolation.REPEATABLE_READ,propagation=Propagation.REQUIRED)
 	@Override
 	public int deleteRoleIdByUserId(String userid) {
 		return userRoleMapper.delRoleIdByUserId(userid);

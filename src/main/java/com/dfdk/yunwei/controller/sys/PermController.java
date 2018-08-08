@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dfdk.yunwei.annotion.SysLogControllerLog;
+import com.dfdk.yunwei.common.ex.QueryException;
+import com.dfdk.yunwei.common.util.Pagination;
 import com.dfdk.yunwei.common.util.StringUtil;
 import com.dfdk.yunwei.common.web.JsonResult;
 import com.dfdk.yunwei.controller.base.BaseController;
+import com.dfdk.yunwei.model.sys.RoleModel;
 import com.dfdk.yunwei.service.sys.RoleManager;
 import com.dfdk.yunwei.service.sys.UserRoleManager;
 @Controller
@@ -34,12 +37,6 @@ public class PermController extends BaseController{
 	public ModelAndView permList() {
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("sys/permission/perm_list");
-		try {
-			List<Map<String,Object>>  roleList = roleService.queryRoles();
-			mv.addObject("roleList", roleList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return mv;
 	}
 	
@@ -97,7 +94,17 @@ public class PermController extends BaseController{
 		return new JsonResult(num);
 	}
 	
-	
-	
+	@SysLogControllerLog(description="查找所有的角色")
+	@RequestMapping("queryR")
+	@ResponseBody
+	public JsonResult queryR(RoleModel model, Pagination pagination) {
+		try {
+			Map<String,Object> map = roleService.queryRO(model, pagination);
+			return new JsonResult(map);
+		} catch (QueryException e) {
+			logger.error(e.getMessage());
+			return new JsonResult(e);
+		}
+	}
 	
 }

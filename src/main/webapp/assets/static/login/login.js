@@ -168,9 +168,9 @@
 				});
 				$('#'+ id).focus();
 				return false;
-			} else if (val.length > 8) {
+			} else if (val.length > 16) {
 				$('#'+ id).tips({
-					msg:'长度不能多于8位',
+					msg:'长度不能多于16位',
 					side:2,
 					bg:'orange'
 				});

@@ -1,6 +1,9 @@
 package com.dfdk.yunwei.controller.login;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dfdk.yunwei.annotion.SysLogControllerLog;
+import com.dfdk.yunwei.common.ex.ModifiedException;
 import com.dfdk.yunwei.common.util.Const;
 import com.dfdk.yunwei.common.util.Map2Bean;
 import com.dfdk.yunwei.common.web.JsonResult;
@@ -40,7 +44,7 @@ public class LoginController extends BaseController{
 	@RequestMapping("signIn")
 	@ResponseBody
 	public JsonResult signIn() {
-		this.before(logger, "signIn()");
+		
 		Map<String,Object> map = this.getRequestParam();
 		UserModel model = (UserModel) Map2Bean.map2JavaBean(map,UserModel.class);
 		String state = userService.getStateByName(model.getUsername());
@@ -49,25 +53,33 @@ public class LoginController extends BaseController{
 			if (!currentUser.isAuthenticated()) {
 				try {
 					ShiroTokenManager.login(currentUser,model);
-					this.end(logger);
 					return new JsonResult("success");
 				} catch (IncorrectCredentialsException e) {
 					e = new IncorrectCredentialsException("PWDERROR");
-					this.end(logger);
 					return new JsonResult(e);
 				} catch (AuthenticationException e) {
 					e = new AuthenticationException("SERVERERROR");
-					this.end(logger);
+					return new JsonResult(e);
+				} catch (ModifiedException e) {
 					return new JsonResult(e);
 				}
 			}
 		} else {
 			return new JsonResult(state);
 		}
-		this.end(logger);
 		return null;
 	}
 	
-	
+	@RequestMapping("logout")
+	public void signOut(HttpServletResponse response) {
+		UserModel user = ShiroSessionManager.getUser();
+		user.setOnlines(Const.OFFLINE_STATUS);
+		userService.updateOn(user);
+		try {
+			response.sendRedirect("login.do");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

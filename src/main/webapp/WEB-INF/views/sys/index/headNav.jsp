@@ -81,3 +81,4 @@
 		</li>
 	</ul>
 </nav>
+<script src="${pageContext.request.contextPath}/assets/static/indexNav/indexNav.js"></script>

@@ -17,11 +17,13 @@
 							<form id="permManager">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12" id="roleTable">
-										<c:if test="${empty(roleList)}">
-											对不起,暂时没有任何角色
-										</c:if>
 										<shiro:hasPermission name="sys:perm:view">
-										<c:if test="${!empty(roleList)}">
+											<shiro:hasPermission name="sys:perm:add">
+											<ul class="list-unstyled list-inline left">
+												<li><input type="text" class="btn btn-info btn-srole" placeholder="请输入角色名称" id="rname"></li>
+												<li><input type="text" class="btn btn-info btn-srole" placeholder="请输入角色编号" id="rnumber"></li>
+											</ul>
+											</shiro:hasPermission>
 											<table class="table table-bordered">
 												<thead>
 													<tr>
@@ -45,37 +47,8 @@
 														</shiro:hasPermission>
 													</tr>
 												</thead>
-												<tbody>
-													<c:forEach items="${roleList}" var="role">
-														<tr>
-															<td data-id="${role.id}">${role.name}</td>
-															<td>${role.rolenumber}</td>
-															<td>${role.status}</td>
-															<shiro:hasPermission name="sys:perm:add">
-																<td><span class="label label-info"><i class="glyphicon glyphicon-menu glyphicon-plus plus"></i></span></td>
-															</shiro:hasPermission>
-															<shiro:hasPermission name="sys:perm:delete">
-																<td><span class="label label-warning"><i class="glyphicon glyphicon-menu glyphicon-remove remove"></i></span></td>
-															</shiro:hasPermission>
-															<shiro:hasPermission name="sys:perm:update">
-																<td><span class="label label-info"><i class="glyphicon glyphicon-menu glyphicon-pencil pencil"></i></span></td>
-															</shiro:hasPermission>
-															<shiro:hasPermission name="sys:perm:add">
-																<td><span class="label label-success"><i class="glyphicon glyphicon-menu glyphicon-eye-open open"></i></span></td>
-															</shiro:hasPermission>
-															<shiro:hasPermission name="sys:perm:add">
-																<td>
-																	<ul class="list-unstyled list-inline">
-																		<li><span class="label label-info label-handler recover">恢复</span></li>
-																		<li><span class="label label-warning label-handler freezeup">冻结</span></li>
-																	</ul>
-																</td>
-															</shiro:hasPermission>
-														</tr>
-													</c:forEach>
-												</tbody>
+												<tbody id="roleBody"></tbody>
 											</table>
-										</c:if>
 										</shiro:hasPermission>
 										<shiro:hasPermission name="sys:perm:add">
 										<ul class="list-unstyled list-inline left">
@@ -124,3 +97,91 @@
 </div>
 <script src="${pageContext.request.contextPath}/assets/static/sys/perm_list.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/model.css"/>
+<script>
+doQueryPageObject();
+function doQueryPageObject() {
+	var rParam = getRParam ();
+	var currentPage = $('#pagination').data('currentPage');
+	if (currentPage) {rParam.currentPage = currentPage};
+	$.ajax({
+		type:'POST',
+		url:'perm/queryR.do',
+		data:rParam,
+		dataType:'json',
+		success:function(result){
+			if (result.state == 1) {
+				var page = result.data.pagination;
+				setPage(page);
+				var list = result.data.roleList;
+				$('#roleBody').empty();
+				for (var i in list) {
+					var tr = $('<tr></tr>');
+					tr.append('<td data-id="'+list[i].roleid+'">'+list[i].rolename+'</td>');
+					tr.append('<td>'+list[i].rolenumber+'</td>');
+					tr.append('<td>'+list[i].status+'</td>');
+					<shiro:hasPermission name="sys:perm:add">
+					tr.append('<td>'+
+								'<span class="label label-info">'+
+									'<i class="glyphicon glyphicon-menu glyphicon-plus plus"></i>'+
+								'</span>'+
+							  '</td>');
+					</shiro:hasPermission>
+					<shiro:hasPermission name="sys:perm:delete">
+					tr.append('<td>'+
+								'<span class="label label-warning">'+
+									'<i class="glyphicon glyphicon-menu glyphicon-remove remove"></i>'+
+								'</span>'+
+							  '</td>');
+					</shiro:hasPermission>
+					<shiro:hasPermission name="sys:perm:update">
+					tr.append('<td>'+
+								'<span class="label label-info">'+
+									'<i class="glyphicon glyphicon-menu glyphicon-pencil pencil"></i>'+
+								'</span>'+
+							  '</td>');
+					</shiro:hasPermission>
+					<shiro:hasPermission name="sys:perm:add">
+					tr.append('<td>'+
+								'<span class="label label-success">'+
+									'<i class="glyphicon glyphicon-menu glyphicon-eye-open open"></i>'+
+								'</span>'+
+							  '</td>');
+					</shiro:hasPermission>
+					<shiro:hasPermission name="sys:perm:add">
+					tr.append('<td>'+
+								'<ul class="list-unstyled list-inline">'+
+									'<li><span class="label label-info label-handler recover">恢复</span></li>'+
+									'<li><span class="label label-warning label-handler freezeup">冻结</span></li>'+
+								'</ul>'+
+							  '</td>');
+					</shiro:hasPermission>
+					
+					$('#roleBody').append(tr);
+				}
+			} else {
+				alert(result.msg);
+			}
+		}
+	});
+}
+
+function getRParam () {
+	return {
+		'rolename':$('#rname').val(),
+		'rolenumber':$('#rnumber').val()
+	}
+}
+
+$(function () {$('#permManager').on('','.btn-srole',queryRP)});
+function queryRP(){doQueryPageObject();};
+
+</script>
+<script src="${pageContext.request.contextPath}/assets/static/page/page.js"></script>
+
+
+
+
+
+
+
+

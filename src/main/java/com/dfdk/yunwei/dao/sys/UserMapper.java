@@ -60,4 +60,37 @@ public interface UserMapper extends BaseDao<UserModel>{
 	 */
 	public List<Map<String,Object>> queryRoleStatus(@Param("model")UserModel model);
 	
+	/**
+	 * 修改用户信息
+	 * @param model
+	 * @return
+	 * @author Lanna
+	 * @date 2018年8月6日
+	 */
+	public int updateUser(@Param("model")UserModel model);
+	
+	/**
+	 * 修改在线状态
+	 * @param model
+	 * @return
+	 * @author Lanna
+	 * @date 2018年8月6日
+	 */
+	public int updateOnLine(@Param("model")UserModel model);
+	/**
+	 * 是否已经在线(单点登录)
+	 * @param model
+	 * @return
+	 * @author Lanna
+	 * @date 2018年8月6日
+	 */
+	public String isOnLine(@Param("model")UserModel model);
+	/**
+	 * 根据用户ID查找密码
+	 * @param userid
+	 * @return
+	 * @author Lanna
+	 * @date 2018年8月7日
+	 */
+	public String queryPwdById(@Param("userid")String userid);
 }

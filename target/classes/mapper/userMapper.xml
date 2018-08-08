@@ -127,6 +127,84 @@
 		and
 			su.userid = #{model.userid}
 	</select>
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="com.dfdk.yunwei.model.sys.UserModel">
+		update sys_user
+		<set>
+			<if test="model.username != null || model.username != ''">username = #{model.username},</if>
+			<if test="model.password != null || model.password != ''">password = #{model.password},</if>
+			<if test="model.realname != null || model.realname != ''">realname = #{model.realname},</if>
+			<if test="model.phone != null || model.phone != ''">phone = #{model.phone},</if>
+			<if test="model.email != null || model.email != ''">email = #{model.email},</if>
+			<if test="model.weichat != null || model.weichat != ''">weichat = #{model.weichat},</if>
+			<if test="model.qqcode != null || model.qqcode != ''">qqcode = #{model.qqcode},</if>
+			<if test="model.sex != null || model.sex != ''">sex = #{model.sex},</if>
+			<if test="model.birthdate != null || model.birthdate != ''">birthdate = #{model.birthdate},</if>
+			<if test="model.deptid != null || model.deptid != ''">deptid = #{model.deptid},</if>
+			<if test="model.onduty != null || model.onduty != ''">onduty = #{model.onduty},</if>
+			<if test="model.belarea != null || model.belarea != ''">belarea = #{model.belarea},</if>
+			<if test="model.updateby != null || model.updateby != ''">updateby = #{model.updateby},</if>
+			<if test="model.updatetime != null || model.updatetime != ''">updatetime = #{model.updatetime},</if>
+		</set>
+		where userid = #{model.userid}
+	</update>
+
+	<!-- 修改在线 -->
+	<update id="updateOnLine">
+		update sys_user set onlines = #{model.onlines} where userid = #{model.userid}
+	</update>
+	
+	<select id="isOnLine" resultType="string">
+		select onlines from sys_user where userid = #{model.userid}
+	</select>
+	
+	<select id="queryPwdById" resultType="string">
+		select password from sys_user where userid = #{userid}
+	</select>
+	
+	<select id="queryPageObject" resultType="map">
+		select * from sys_user su
+		<where>
+			<if test="model.username != null and model.username !=''">
+				su.username like CONCAT ("%",#{model.username},"%")
+			</if>
+			<if test="model.realname != null and model.realname !=''">
+				and su.realname like CONCAT ("%",#{model.realname},"%")
+			</if>
+			<if test="model.phone != null and model.phone !=''">
+				and su.phone like CONCAT ("%",#{model.phone},"%")
+			</if>
+			<if test="model.weichat != null and model.weichat !=''">
+				and su.weichat like CONCAT ("%",#{model.weichat},"%")
+			</if>
+			<if test="model.belarea != null and model.belarea !=''">
+				and su.belarea like CONCAT ("%",#{model.belarea},"%")
+			</if>
+		</where>
+		order by su.createtime desc
+		limit #{pagination.startPage},#{pagination.endPage}
+	</select>
+	
+	<select id="queryRowCount" resultType="int">
+		select count(*) from sys_user su
+		<where>
+			<if test="model.username != null and model.username !=''">
+				su.username like CONCAT ("%",#{model.username},"%")
+			</if>
+			<if test="model.realname != null and model.realname !=''">
+				and su.realname like CONCAT ("%",#{model.realname},"%")
+			</if>
+			<if test="model.phone != null and model.phone !=''">
+				and su.phone like CONCAT ("%",#{model.phone},"%")
+			</if>
+			<if test="model.weichat != null and model.weichat !=''">
+				and su.weichat like CONCAT ("%",#{model.weichat},"%")
+			</if>
+			<if test="model.belarea != null and model.belarea !=''">
+				and su.belarea like CONCAT ("%",#{model.belarea},"%")
+			</if>
+		</where>
+	</select>
 	
 	
 </mapper>

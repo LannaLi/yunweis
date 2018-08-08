@@ -87,4 +87,20 @@ public class StringUtil {
 		String s = m.replaceAll("");
 		return s;
 	}
+	
+	public static String getPre() {
+		return "上一页";
+	}
+	
+	public static String getFirst() {
+		return "首页";
+	}
+	
+	public static String getNext() {
+		return "下一页";
+	}
+	
+	public static String getLast() {
+		return "尾页";
+	}
 }

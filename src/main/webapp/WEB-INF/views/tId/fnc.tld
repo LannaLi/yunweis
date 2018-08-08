@@ -27,5 +27,36 @@
     	<example>${fnc:getCompanyName()}</example>  
 	</function>
 	
+	<function>
+		<description></description>
+    	<name>getFirst</name>
+    	<function-class>com.dfdk.yunwei.common.util.StringUtil</function-class>
+    	<function-signature>java.lang.String getFirst()</function-signature>
+    	<example>${fnc:getFirst()}</example>
+	</function>
+	
+	<function>
+		<description></description>
+    	<name>getPre</name>
+    	<function-class>com.dfdk.yunwei.common.util.StringUtil</function-class>
+    	<function-signature>java.lang.String getPre()</function-signature>
+    	<example>${fnc:getPre()}</example>
+	</function>
+	
+	<function>
+		<description></description>
+    	<name>getNext</name>
+    	<function-class>com.dfdk.yunwei.common.util.StringUtil</function-class>
+    	<function-signature>java.lang.String getNext()</function-signature>
+    	<example>${fnc:getNext()}</example>
+	</function>
+	
+	<function>
+		<description></description>
+    	<name>getLast</name>
+    	<function-class>com.dfdk.yunwei.common.util.StringUtil</function-class>
+    	<function-signature>java.lang.String getLast()</function-signature>
+    	<example>${fnc:getLast()}</example>
+	</function>
 </taglib>  
    
