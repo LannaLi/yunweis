@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dfdk.yunwei.dao.sys.RoleMapper">
@@ -98,4 +99,106 @@
 	
 	
 	
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfdk.yunwei.dao.sys.RoleMapper">
+	
+	<sql id="insertTo">insert into sys_role</sql>
+	
+	<sql id="roleparam">
+		roleid as id,
+		rolename as name,
+		rolenumber,
+		status,
+		remark,
+		createby,
+		updateby,
+		createtime,
+		updatetime
+	</sql>
+	
+	
+	<sql id="roleparams">
+		roleid,
+		rolename,
+		rolenumber,
+		status,
+		remark,
+		createby,
+		updateby,
+		createtime,
+		updatetime
+	</sql>
+	
+	<sql id="rolevalue">
+		#{roleid},
+		#{rolename},
+		#{rolenumber},
+		#{status},
+		#{remark},
+		#{createby},
+		#{updateby},
+		now(),
+		now()
+	</sql>
+	
+	<sql id="fromTo">
+		from sys_role
+	</sql>
+	
+	<sql id="sortByTime">
+		order by createtime desc
+	</sql>
+	
+	<insert id="insert" parameterType="com.dfdk.yunwei.model.sys.RoleModel">
+				<include refid="insertTo"></include>
+			(
+				<include refid="roleparams"></include>
+			)values(
+				<include refid="rolevalue"></include>
+			)
+	</insert>
+	
+	<select id="queryObjects" resultType="map">
+		select
+			<include refid="roleparam"></include> 
+			<include refid="fromTo"></include> 
+			<include refid="sortByTime"></include>
+	</select>
+	
+	<update id="updateRoleStatusById">
+		update sys_role set status=#{status} where roleid=#{roleid}
+	</update>
+	
+	<select id="queryPageObject" resultType="map">
+		select <include refid="roleparams"></include> from sys_role sr
+		<where>
+			<if test="model.rolename != null and model.rolename !=''">
+				sr.rolename like CONCAT ("%",#{model.rolename},"%")
+			</if>
+			<if test="model.rolenumber != null and model.rolenumber !=''">
+				and sr.rolenumber like CONCAT ("%",#{model.rolenumber},"%")
+			</if>
+		</where>
+		order by sr.createtime desc
+		limit #{pagination.startPage},#{pagination.endPage}
+	</select>
+	
+	<select id="queryRowCount" resultType="int">
+		select count(*) from sys_role sr
+		<where>
+			<if test="model.rolename != null and model.rolename !=''">
+				sr.rolename like CONCAT ("%",#{model.rolename},"%")
+			</if>
+			<if test="model.rolenumber != null and model.rolenumber !=''">
+				and sr.rolenumber like CONCAT ("%",#{model.rolenumber},"%")
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+>>>>>>> refs/remotes/origin/master
 </mapper>
