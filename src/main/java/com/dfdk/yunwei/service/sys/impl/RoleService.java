@@ -1,5 +1,6 @@
 package com.dfdk.yunwei.service.sys.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dfdk.yunwei.common.ex.QueryException;
+import com.dfdk.yunwei.common.util.Pagination;
 import com.dfdk.yunwei.dao.sys.RoleMapper;
 import com.dfdk.yunwei.model.sys.RoleModel;
 import com.dfdk.yunwei.service.sys.RoleManager;
@@ -55,6 +58,24 @@ public class RoleService implements RoleManager{
 			throw new NullPointerException("操作有误,请联系管理员!");
 		}
 		return roleMapper.updateRoleStatusById(roleid, status);
+	}
+	
+	/**
+	 * 分页查询
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public Map<String, Object> queryRO(RoleModel model, Pagination pagination) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int n = roleMapper.queryRowCount(model);
+		if (n == 0) {
+			throw new QueryException("没有找到相应的记录!");
+		}
+		pagination.setRowCount(n);
+		List<Map<String, Object>> roleList = roleMapper.queryPageObject(model, pagination);
+		map.put("roleList", roleList);
+		map.put("pagination", pagination);
+		return map;
 	}
 
 }

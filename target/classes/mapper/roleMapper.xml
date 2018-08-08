@@ -58,7 +58,6 @@
 			)
 	</insert>
 	
-	
 	<select id="queryObjects" resultType="map">
 		select
 			<include refid="roleparam"></include> 
@@ -66,9 +65,37 @@
 			<include refid="sortByTime"></include>
 	</select>
 	
-	
 	<update id="updateRoleStatusById">
 		update sys_role set status=#{status} where roleid=#{roleid}
 	</update>
+	
+	<select id="queryPageObject" resultType="map">
+		select <include refid="roleparams"></include> from sys_role sr
+		<where>
+			<if test="model.rolename != null and model.rolename !=''">
+				sr.rolename like CONCAT ("%",#{model.rolename},"%")
+			</if>
+			<if test="model.rolenumber != null and model.rolenumber !=''">
+				and sr.rolenumber like CONCAT ("%",#{model.rolenumber},"%")
+			</if>
+		</where>
+		order by sr.createtime desc
+		limit #{pagination.startPage},#{pagination.endPage}
+	</select>
+	
+	<select id="queryRowCount" resultType="int">
+		select count(*) from sys_role sr
+		<where>
+			<if test="model.rolename != null and model.rolename !=''">
+				sr.rolename like CONCAT ("%",#{model.rolename},"%")
+			</if>
+			<if test="model.rolenumber != null and model.rolenumber !=''">
+				and sr.rolenumber like CONCAT ("%",#{model.rolenumber},"%")
+			</if>
+		</where>
+	</select>
+	
+	
+	
 	
 </mapper>

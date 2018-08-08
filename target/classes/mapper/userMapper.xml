@@ -169,16 +169,16 @@
 				su.username like CONCAT ("%",#{model.username},"%")
 			</if>
 			<if test="model.realname != null and model.realname !=''">
-				su.realname like CONCAT ("%",#{model.realname},"%")
+				and su.realname like CONCAT ("%",#{model.realname},"%")
 			</if>
 			<if test="model.phone != null and model.phone !=''">
-				su.phone like CONCAT ("%",#{model.phone},"%")
+				and su.phone like CONCAT ("%",#{model.phone},"%")
 			</if>
 			<if test="model.weichat != null and model.weichat !=''">
-				su.weichat like CONCAT ("%",#{model.weichat},"%")
+				and su.weichat like CONCAT ("%",#{model.weichat},"%")
 			</if>
 			<if test="model.belarea != null and model.belarea !=''">
-				su.belarea like CONCAT ("%",#{model.belarea},"%")
+				and su.belarea like CONCAT ("%",#{model.belarea},"%")
 			</if>
 		</where>
 		order by su.createtime desc
@@ -192,16 +192,16 @@
 				su.username like CONCAT ("%",#{model.username},"%")
 			</if>
 			<if test="model.realname != null and model.realname !=''">
-				su.realname like CONCAT ("%",#{model.realname},"%")
+				and su.realname like CONCAT ("%",#{model.realname},"%")
 			</if>
 			<if test="model.phone != null and model.phone !=''">
-				su.phone like CONCAT ("%",#{model.phone},"%")
+				and su.phone like CONCAT ("%",#{model.phone},"%")
 			</if>
 			<if test="model.weichat != null and model.weichat !=''">
-				su.weichat like CONCAT ("%",#{model.weichat},"%")
+				and su.weichat like CONCAT ("%",#{model.weichat},"%")
 			</if>
 			<if test="model.belarea != null and model.belarea !=''">
-				su.belarea like CONCAT ("%",#{model.belarea},"%")
+				and su.belarea like CONCAT ("%",#{model.belarea},"%")
 			</if>
 		</where>
 	</select>

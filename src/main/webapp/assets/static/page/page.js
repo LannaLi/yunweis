@@ -8,12 +8,12 @@ $(document).ready(function(){
 //设置页面
 function setPage(page){
 	$('#pagination').data('currentPage',page.currentPage);
-	$('#pagination').data('rowCount',page.rowCount);
+	$('#pagination').data('pageCount',page.pageCount);
 }
 
 function goPage () {
 	var currentPage = $('#pagination').data('currentPage');
-	var rowCount = $('#pagination').data('rowCount');
+	var pageCount = $('#pagination').data('pageCount');
 	if ($(this).hasClass('page-first')) {
 		currentPage = 1;
 	}
@@ -25,17 +25,16 @@ function goPage () {
 	}
 	if ($(this).hasClass('page-next')) {
 		currentPage++;
-		if (currentPage > rowCount) {
-			currentPage = rowCount;
+		if (currentPage > pageCount) {
+			currentPage = pageCount;
 		}
 	}
 	if ($(this).hasClass('page-last')) {
-		currentPage = rowCount;
+		currentPage = pageCount;
 	}
 	//重新绑定数据
 	$('#pagination').data('currentPage',currentPage);
 	doQueryPageObject();
 }
-
 
 

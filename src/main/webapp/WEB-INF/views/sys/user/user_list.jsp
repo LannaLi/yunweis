@@ -18,12 +18,14 @@
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12">
 										<shiro:hasPermission name="sys:user:view">
+											<shiro:hasPermission name="sys:user:add">
 											<ul class="list-unstyled list-inline left">
-													<li><input type="text" class="btn btn-info" placeholder="用户名" id="susername"></li>
-													<li><input type="text" class="btn btn-info" placeholder="真实姓名" id="srealname"></li>
-													<li><input type="text" class="btn btn-info" placeholder="电话号码" id="sphone"></li>
-													<li><input type="text" class="btn btn-info" placeholder="所属区域" id="sarea"></li>
+													<li><input type="text" class="btn btn-info btn-search" placeholder="用户名" id="susername"></li>
+													<li><input type="text" class="btn btn-info btn-search" placeholder="真实姓名" id="srealname"></li>
+													<li><input type="text" class="btn btn-info btn-search" placeholder="电话号码" id="sphone"></li>
+													<li><input type="text" class="btn btn-info btn-search" placeholder="所属区域" id="sarea"></li>
 											</ul>
+											</shiro:hasPermission>
 											<table class="table table-bordered">
 												<thead>
 													<tr>
@@ -94,75 +96,98 @@
 <script src="${pageContext.request.contextPath}/assets/static/sys/user_list.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/model.css"/>
 <script>
-	$(function(){
-		doQueryPageObject();
-		function doQueryPageObject() {
-			$.ajax({
-				type:'POST',
-				url:'user/queryU.do',
-				data:{'username':$('#susername').val(),'realname':$('#srealname').val(),'phone':$('#sphone').val(),'belarea':$('#sarea').val()},
-				dataType:'json',
-				success:function(result){
-					if (result.state == 1) {
-						//设置分页信息
-						var page = result.data.pagination;
-						setPage(page);
-						var list = result.data.userList;
-						//设置表格
-						$('#userTbody').empty();
-						for (var i in list) {
-							var tr = $('<tr></tr>');
-							tr.append('<td data-id="'+list[i].userid+'">'+list[i].username+'</td>');
-							tr.append('<td>'+list[i].status+'</td>');
-							<shiro:hasPermission name="sys:user:add">
-							tr.append('<td>'+
-											'<span class="label label-info">'+
-												'<i class="glyphicon glyphicon-role glyphicon-plus plus"></i>'+
-											'</span>'+
-										'</td>');
-							</shiro:hasPermission>
-							<shiro:hasPermission name="sys:user:delete">
-							tr.append('<td>'+
-										'<span class="label label-warning">'+
-											'<i class="glyphicon glyphicon-role glyphicon-remove remove"></i>'+
-										'</span>'+
-									'</td>');
-							</shiro:hasPermission>
-							<shiro:hasPermission name="sys:user:update">
-							tr.append('<td>'+
+	doQueryPageObject();
+	function doQueryPageObject() {
+		var param = getSParam ();
+		var currentPage = $('#pagination').data('currentPage');
+		if (currentPage) {param.currentPage = currentPage};
+		$.ajax({
+			type:'POST',
+			url:'user/queryU.do',
+			data:param,
+			dataType:'json',
+			success:function(result){
+				if (result.state == 1) {
+					//设置分页信息
+					var page = result.data.pagination;
+					setPage(page);
+					var list = result.data.userList;
+					//设置表格
+					$('#userTbody').empty();
+					for (var i in list) {
+						var tr = $('<tr></tr>');
+						tr.append('<td data-id="'+list[i].userid+'">'+list[i].username+'</td>');
+						tr.append('<td>'+list[i].status+'</td>');
+						<shiro:hasPermission name="sys:user:add">
+						tr.append('<td>'+
 										'<span class="label label-info">'+
-											'<i class="glyphicon glyphicon-role glyphicon-pencil pencil"></i>'+
+											'<i class="glyphicon glyphicon-role glyphicon-plus plus"></i>'+
 										'</span>'+
 									'</td>');
-							</shiro:hasPermission>
-							<shiro:hasPermission name="sys:user:add">
-							tr.append('<td>'+
-										'<span class="label label-success">'+
-											'<i class="glyphicon glyphicon-role glyphicon-eye-open eyeopen"></i>'+
-										'</span>'+
-									'</td>');
-							</shiro:hasPermission>
-							<shiro:hasPermission name="sys:user:add">
-							tr.append('<td>'+
-									 	'<ul class="list-unstyled list-inline">'+
-									 		'<li><span class="label label-info  resetPwd">重置密码</span></li>'+
-									 		'<li><span class="label label-info label-handle recover">恢复</span></li>'+
-									 		'<li><span class="label label-warning label-handle freezeup">冻结</span></li>'+
-									 		'<li><span class="label label-warning label-handle stop">停用</span></li>'+
-									 	'</ul>'+
-									  '</td>');
-							</shiro:hasPermission>
-							$('#userTbody').append(tr);
-						}
-					} else {
-						alert(result.msg);
+						</shiro:hasPermission>
+						<shiro:hasPermission name="sys:user:delete">
+						tr.append('<td>'+
+									'<span class="label label-warning">'+
+										'<i class="glyphicon glyphicon-role glyphicon-remove remove"></i>'+
+									'</span>'+
+								'</td>');
+						</shiro:hasPermission>
+						<shiro:hasPermission name="sys:user:update">
+						tr.append('<td>'+
+									'<span class="label label-info">'+
+										'<i class="glyphicon glyphicon-role glyphicon-pencil pencil"></i>'+
+									'</span>'+
+								'</td>');
+						</shiro:hasPermission>
+						<shiro:hasPermission name="sys:user:add">
+						tr.append('<td>'+
+									'<span class="label label-success">'+
+										'<i class="glyphicon glyphicon-role glyphicon-eye-open eyeopen"></i>'+
+									'</span>'+
+								'</td>');
+						</shiro:hasPermission>
+						<shiro:hasPermission name="sys:user:add">
+						tr.append('<td>'+
+								 	'<ul class="list-unstyled list-inline">'+
+								 		'<li><span class="label label-info  resetPwd">重置密码</span></li>'+
+								 		'<li><span class="label label-info label-handle recover">恢复</span></li>'+
+								 		'<li><span class="label label-warning label-handle freezeup">冻结</span></li>'+
+								 		'<li><span class="label label-warning label-handle stop">停用</span></li>'+
+								 	'</ul>'+
+								  '</td>');
+						</shiro:hasPermission>
+						$('#userTbody').append(tr);
 					}
+				} else {
+					alert(result.msg);
 				}
-			});
+			}
+		});
+	}
+	//获取分页参数
+	function getSParam () {
+		var uname = $('#susername').val();
+		if (/^[A-Z]+$/.test(uname)) {
+			uname = uname.toLowerCase().trim();
 		}
-	})
+		var phone = $('#sphone').val();
+		if (/^[0-9]+$/.test(phone)) {
+			phone = phone.toLowerCase().trim();
+		}
+		return {
+			'username':uname,
+			'realname':$('#srealname').val(),
+			'phone':phone,
+			'belarea':$('#sarea').val()
+		}
+	}
+	
+	$(function () {
+		$('#userManager').on('keyup','.btn-search',query);
+	});
+	function query(){doQueryPageObject();}
 </script>
-
+<script src="${pageContext.request.contextPath}/assets/static/page/page.js"></script>
 
 
 

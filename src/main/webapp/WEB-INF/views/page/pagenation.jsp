@@ -5,4 +5,3 @@
 	<li><a class="page page-next">${fnc:getNext()}</a></li>
 	<li><a class="page page-last">${fnc:getLast()}</a></li>
 </ul>
-<script src="${pageContext.request.contextPath}/assets/static/page/page.js"></script>

@@ -9,7 +9,7 @@ public class Pagination {
 	/**每页的条数*/
 	private int currentPage = 1;
 	/**每页的条数*/
-	private int pageSize = 10;
+	private int pageSize = 2;
 	/**总页数*/
 	private int pageCount;
 	/**总条数*/
